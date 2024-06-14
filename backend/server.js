@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const authRoutes = require('./routes/authRoutes');
+const symptomRoutes = require('./routes/symptomRoutes');
 const PORT = process.env.PORT || 5000;
+require('dotenv').config();
 
 // Middleware
 app.use(cors());
@@ -11,9 +13,10 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/symptom', symptomRoutes);
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/healthChatbot')
+mongoose.connect(process.env.MONGODB_URI ?? 'mongodb://localhost/mydatabase')
   .then(() => {
     console.log('Connected to MongoDB');
   })

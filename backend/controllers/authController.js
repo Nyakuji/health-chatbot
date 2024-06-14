@@ -6,7 +6,7 @@ exports.signup = async (req, res) => {
   try {
     const user = new User({ username, email, password, medicalId });
     await user.save();
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Use the secret from environment variables
     res.status(201).json({ token });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Use the secret from environment variables
     res.status(200).json({ token });
   } catch (err) {
     res.status(400).json({ error: err.message });
