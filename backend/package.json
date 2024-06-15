@@ -17,7 +17,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
     "nodemailer": "^6.9.13",
-    "openai": "^4.51.0"
+    "openai": "^4.51.0",
+    "twilio": "^5.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.14.2"
