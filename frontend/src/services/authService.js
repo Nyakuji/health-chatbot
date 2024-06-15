@@ -23,9 +23,21 @@ const login = async (userData) => {
   return response.data;
 };
 
+// Logout user
+const logout = () => {
+  localStorage.removeItem('user');
+};
+
+// Get current user
+const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem('user') || '');
+};
+
 const authService = {
   signup,
   login,
+  logout,
+  getCurrentUser,
 };
 
 export default authService;
