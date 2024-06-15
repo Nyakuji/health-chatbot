@@ -2,39 +2,39 @@ import React, { useState } from 'react';
 import authService from '../services/authService';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const { username, password } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await authService.login(formData);
-      console.log('Login successful:', response);
+      const userData = { username, password };
+      await authService.login(userData);
+      setMessage('Login successful!');
+      // Redirect to profile or dashboard based on user role
+      // window.location.href = '/profile';
     } catch (error) {
-      console.error('Login error:', error);
+      setMessage(error.response.data.error);
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label>Username</label>
-        <input type="text" name="username" value={username} onChange={onChange} required />
-      </div>
-      <div>
-        <label>Password</label>
-        <input type="password" name="password" value={password} onChange={onChange} required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
 };
 
