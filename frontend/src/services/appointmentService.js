@@ -14,5 +14,10 @@ const getDoctorAvailability = async (doctorId, date) => {
   return response.data;
 };
 
-const appointmentService = { bookAppointment, getDoctorAvailability };
+const cancelAppointment = async (appointmentId, contactInfo, notificationType) => {
+  const response = await axios.post(`${API_URL}cancel`, { appointmentId, contactInfo, notificationType });
+  return response.data;
+};
+
+const appointmentService = { bookAppointment, getDoctorAvailability, cancelAppointment };
 export default appointmentService;
