@@ -14,10 +14,12 @@ import ManageDoctors from './components/ManageDoctors';
 import ManageAppointments from './components/ManageAppointments';
 import ActivityLog from './components/ActivityLog';
 import PrivateRoute from './components/PrivateRoute';
-
+import NavigationBar from './components/NavigationBar';
 function App() {
   return (
     <Router>
+      <div>
+        <NavigationBar />
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -51,6 +53,7 @@ function App() {
           <Route path="/admin/activity-log" element={<ActivityLog />} />
         </Route>
       </Routes>
+      </div>
     </Router>
   );
 }

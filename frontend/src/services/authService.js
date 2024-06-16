@@ -23,21 +23,28 @@ const login = async (userData) => {
   return response.data;
 };
 
-// Logout user
-const logout = () => {
-  localStorage.removeItem('user');
+const getCurrentUser = () => {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    try {
+      return JSON.parse(userStr);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return null;
+    }
+  }
+  return null;
 };
 
-// Get current user
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('user') || '');
+const logout = () => {
+  localStorage.removeItem('user');
 };
 
 const authService = {
   signup,
   login,
-  logout,
   getCurrentUser,
+  logout,
 };
 
 export default authService;
