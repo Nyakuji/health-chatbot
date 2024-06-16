@@ -10,6 +10,8 @@ const doctorRoutes = require('./routes/doctorRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
+const { wss } = require('./websocket');
+const http = require('http');
 
 // Middleware
 app.use(cors());
@@ -32,6 +34,18 @@ mongoose.connect(process.env.MONGODB_URI ?? 'mongodb://localhost/mydatabase')
     console.error('Database connection error:', err);
   });
 
+const server = http.createServer((req, res) => {
+  app(req, res);
+});
+
+server.on('upgrade', (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (ws) => {
+    wss.emit('connection', ws, request);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = server;

@@ -1,4 +1,6 @@
+const { broadcastAvailabilityUpdate } = require('../websocket');
 const Doctor = require('../models/doctorModel');
+const User = require('../models/userModel');
 const Appointment = require('../models/appointmentModel');
 const { sendNotification } = require('../services/notificationService');
 
@@ -17,7 +19,7 @@ exports.bookAppointment = async (req, res) => {
       return res.status(404).json({ message: 'Doctor name not found' });
     }
 
-    const availability = doctor.availability.find(a => a.date.toISOString().split('T')[0] === date);
+    const availability = doctor?.availability.find(a => a.date.toISOString().split('T')[0] === date);
     if (!availability) {
       return res.status(404).json({ message: 'No availability on this date' });
     }
@@ -45,6 +47,26 @@ exports.bookAppointment = async (req, res) => {
     sendNotification(notificationType, contactInfo, 'Appointment Confirmation', `Your appointment with Dr. ${doctor.name} on ${date} at ${time} has been confirmed.`);
 
     res.status(201).json({ message: 'Appointment booked successfully', appointment });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+exports.updateAvailability = async (req, res) => {
+  const { doctorId, availability } = req.body;
+
+  try {
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    doctor.availability = availability;
+    await doctor.save();
+
+    broadcastAvailabilityUpdate({ doctorId, availability });
+
+    res.status(200).json({ message: 'Availability updated successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Internal server error', error });
   }

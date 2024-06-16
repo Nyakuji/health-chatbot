@@ -1,8 +1,9 @@
 const express = require('express');
-const { updateAvailability, searchDoctors } = require('../controllers/doctorController');
+const {  searchDoctors } = require('../controllers/doctorController');
+const { updateAvailability} = require('../controllers/appointmentController');
 const router = express.Router();
 
-router.post('/update-availability', updateAvailability);
 router.get('/search', searchDoctors);
+router.post('/availability', updateAvailability);
 
 module.exports = router;
