@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema({
   phoneNumber: { type: String },
   medicalId: { type: String },
   role: { type: String, enum: ['patient', 'doctor'], required: true },
+  specialty: { type: String },//for doctors
+  location: { type: String }, //for doctors
 });
 
 userSchema.pre('save', async function(next) {
