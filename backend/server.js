@@ -10,6 +10,7 @@ const doctorRoutes = require('./routes/doctorRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const activityLogRoutes = require('./routes/activityLogRoutes');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 const { wss } = require('./websocket');
@@ -28,6 +29,7 @@ app.use('/api/doctor', doctorRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/notification', notificationRoutes);
+app.use('/api/activity-log', activityLogRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI ?? 'mongodb://localhost/mydatabase')
