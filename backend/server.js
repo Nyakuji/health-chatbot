@@ -8,6 +8,7 @@ const appointmentRoutes = require('./routes/appointmentRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
@@ -25,6 +26,7 @@ app.use('/api/appointment', appointmentRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/doctor', doctorRoutes);
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/notification', notificationRoutes);
 
 // MongoDB connection
