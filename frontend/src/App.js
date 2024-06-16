@@ -12,26 +12,45 @@ import AdminDashboard from './components/AdminDashboard';
 import ManageUsers from './components/ManageUsers';
 import ManageDoctors from './components/ManageDoctors';
 import ManageAppointments from './components/ManageAppointments';
+import ActivityLog from './components/ActivityLog';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/symptom-checker" element={<SymptomChecker />} />
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/symptom-checker" element={<SymptomChecker />} />
+        
+        <Route element={<PrivateRoute roles={['patient']} />}>
           <Route path="/book-appointment" element={<BookAppointment />} />
+        </Route>
+
+        <Route element={<PrivateRoute roles={['patient', 'doctor', 'admin']} />}>
           <Route path="/profile" element={<Profile />} />
+        </Route>
+
+        <Route element={<PrivateRoute roles={['patient']} />}>
           <Route path="/search-doctors" element={<DoctorSearch />} />
+        </Route>
+
+        <Route element={<PrivateRoute roles={['doctor']} />}>
           <Route path="/doctor-availability" element={<DoctorAvailability />} />
-          <Route path="/doctor-profile/:doctorId" element={<DoctorProfile doctorId={''} />} />
-          <Route path="/admin/*" element={<AdminDashboard />} />
+        </Route>
+
+        <Route element={<PrivateRoute roles={['patient', 'admin']} />}>
+          <Route path="/doctor-profile/:doctorId" element={<DoctorProfile doctorId={123} />} />
+        </Route>
+
+        <Route element={<PrivateRoute roles={['admin']} />}>
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/doctors" element={<ManageDoctors />} />
           <Route path="/admin/appointments" element={<ManageAppointments />} />
-        </Routes>
-      </div>
+          <Route path="/admin/activity-log" element={<ActivityLog />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
