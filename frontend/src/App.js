@@ -6,6 +6,7 @@ import SymptomChecker from './components/SymptomChecker';
 import BookAppointment from './components/BookAppointment';
 import Profile from './components/Profile';
 import DoctorSearch from './components/DoctorSearch';
+import DoctorAvailability from './components/DoctorAvailability';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/book-appointment" element={<BookAppointment />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/search-doctors" element={<DoctorSearch />} />
+          <Route path="/doctor-availability" element={<DoctorAvailability />} />
         </Routes>
       </div>
     </Router>
