@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -8,21 +8,21 @@ const userSchema = new mongoose.Schema({
   phoneNumber: { type: String },
   medicalId: { type: String },
   role: { type: String, enum: ['patient', 'doctor'], required: true },
-  specialty: { type: String },//for doctors
+  specialty: { type: String }, //for doctors
   location: { type: String }, //for doctors
-});
+})
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
-    return next();
+    return next()
   }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
+  next()
+})
 
-userSchema.methods.comparePassword = async function(password) {
-  return bcrypt.compare(password, this.password);
-};
+userSchema.methods.comparePassword = async function (password) {
+  return bcrypt.compare(password, this.password)
+}
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)
