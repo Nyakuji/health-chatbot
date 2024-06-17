@@ -1,17 +1,27 @@
 {
-  "name": "backend",
+  "name": "health-chatbot-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for the Health Chatbot application",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix",
+    "format": "prettier --write '**/*.{js,json,md}'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "health",
+    "chatbot",
+    "backend",
+    "nodejs",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -23,6 +33,17 @@
     "ws": "^8.17.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.2"
+    "@eslint/compat": "^1.1.0",
+    "@eslint/js": "^9.5.0",
+    "@types/node": "^20.14.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "globals": "^15.5.0",
+    "mkdirp": "^3.0.1",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

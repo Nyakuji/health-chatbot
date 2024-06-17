@@ -50,6 +50,8 @@ typings/
 # Optional eslint cache
 .eslintcache
 
+eslint.config.mjs
+
 # Optional REPL history
 .node_repl_history
 
@@ -61,6 +63,7 @@ typings/
 
 # dotenv environment variables file
 .env.test
+.prettierrc
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
