@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import feedbackService from '../services/feedbackService';
 import FeedbackForm from './FeedbackForm';
 
@@ -35,6 +36,10 @@ const DoctorProfile = ({ doctorId }) => {
       </ul>
     </div>
   );
+};
+
+DoctorProfile.propTypes = {
+  doctorId: PropTypes.string.isRequired,
 };
 
 export default DoctorProfile;
