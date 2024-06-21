@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import feedbackService from '../services/feedbackService';
 import authService from '../services/authService';
@@ -42,6 +43,11 @@ const FeedbackForm = ({ doctorId }) => {
       {message && <p>{message}</p>}
     </div>
   );
+};
+
+// Add doctorId to props validation
+FeedbackForm.propTypes = {
+  doctorId: PropTypes.string.isRequired,
 };
 
 export default FeedbackForm;
