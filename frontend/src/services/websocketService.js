@@ -4,16 +4,16 @@ const connect = (userId) => {
   socket = new WebSocket(`ws://localhost:5000?userId=${userId}`)
 
   socket.onopen = () => {
-    console.log('WebSocket connection established')
+    console.info('WebSocket connection established')
   }
 
   socket.onmessage = (event) => {
-    console.log('WebSocket message received:', event.data)
+    console.info('WebSocket message received:', event.data)
     // Handle the received data here, e.g., update state or notify components
   }
 
   socket.onclose = () => {
-    console.log('WebSocket connection closed')
+    console.info('WebSocket connection closed')
   }
 
   socket.onerror = (error) => {
