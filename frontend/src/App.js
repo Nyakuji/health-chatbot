@@ -12,6 +12,7 @@ import AdminDashboard from './components/AdminDashboard';
 import ManageUsers from './components/ManageUsers';
 import ManageDoctors from './components/ManageDoctors';
 import ManageAppointments from './components/ManageAppointments';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 import ActivityLog from './components/ActivityLog';
 import PrivateRoute from './components/PrivateRoute';
 import NavigationBar from './components/NavigationBar';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/doctors" element={<ManageDoctors />} />
           <Route path="/admin/appointments" element={<ManageAppointments />} />
+          <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
           <Route path="/admin/activity-log" element={<ActivityLog />} />
         </Route>
       </Routes>
