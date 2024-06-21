@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import websocketService from '../services/websocketService';
-import authService from '../services/authService';
+import React, { useEffect, useState } from 'react'
+import websocketService from '../services/websocketService'
+import authService from '../services/authService'
 
 const DoctorAvailability = () => {
-  const [availability, setAvailability] = useState({});
+  const [availability, setAvailability] = useState({})
 
   useEffect(() => {
-    const user = authService.getCurrentUser();
+    const user = authService.getCurrentUser()
     if (user) {
-      websocketService.connect(user.id);
+      websocketService.connect(user.id)
 
       websocketService.socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        const data = JSON.parse(event.data)
         setAvailability((prevAvailability) => ({
           ...prevAvailability,
           [data.doctorId]: data.availability,
-        }));
-      };
+        }))
+      }
 
       return () => {
-        websocketService.disconnect();
-      };
+        websocketService.disconnect()
+      }
     }
-  }, []);
+  }, [])
 
   return (
     <div>
@@ -35,7 +35,7 @@ const DoctorAvailability = () => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default DoctorAvailability;
+export default DoctorAvailability

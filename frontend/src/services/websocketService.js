@@ -1,37 +1,37 @@
-let socket;
+let socket
 
 const connect = (userId) => {
-  socket = new WebSocket(`ws://localhost:5000?userId=${userId}`);
+  socket = new WebSocket(`ws://localhost:5000?userId=${userId}`)
 
   socket.onopen = () => {
-    console.log('WebSocket connection established');
-  };
+    console.log('WebSocket connection established')
+  }
 
   socket.onmessage = (event) => {
-    console.log('WebSocket message received:', event.data);
+    console.log('WebSocket message received:', event.data)
     // Handle the received data here, e.g., update state or notify components
-  };
+  }
 
   socket.onclose = () => {
-    console.log('WebSocket connection closed');
-  };
+    console.log('WebSocket connection closed')
+  }
 
   socket.onerror = (error) => {
-    console.error('WebSocket error:', error);
-  };
-};
+    console.error('WebSocket error:', error)
+  }
+}
 
 const disconnect = () => {
   if (socket) {
-    socket.close();
+    socket.close()
   }
-};
+}
 
 const sendMessage = (message) => {
   if (socket && socket.readyState === WebSocket.OPEN) {
-    socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify(message))
   }
-};
+}
 
-const websocketService = { connect, disconnect, sendMessage };
-export default websocketService;
+const websocketService = { connect, disconnect, sendMessage }
+export default websocketService

@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import symptomService from '../services/symptomService';
+import React, { useState } from 'react'
+import symptomService from '../services/symptomService'
 
 const SymptomChecker = () => {
-  const [symptoms, setSymptoms] = useState('');
-  const [response, setResponse] = useState('');
+  const [symptoms, setSymptoms] = useState('')
+  const [response, setResponse] = useState('')
 
   const onChange = (e) => {
-    setSymptoms(e.target.value);
-  };
+    setSymptoms(e.target.value)
+  }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const result = await symptomService.checkSymptoms(symptoms);
-      setResponse(result.message);
+      const result = await symptomService.checkSymptoms(symptoms)
+      setResponse(result.message)
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error)
     }
-  };
+  }
 
   return (
     <div>
@@ -28,9 +28,14 @@ const SymptomChecker = () => {
         </div>
         <button type="submit">Check Symptoms</button>
       </form>
-      {response && <div><h3>Possible Conditions:</h3><p>{response}</p></div>}
+      {response && (
+        <div>
+          <h3>Possible Conditions:</h3>
+          <p>{response}</p>
+        </div>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default SymptomChecker;
+export default SymptomChecker

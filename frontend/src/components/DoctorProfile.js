@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import feedbackService from '../services/feedbackService';
-import FeedbackForm from './FeedbackForm';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import feedbackService from '../services/feedbackService'
+import FeedbackForm from './FeedbackForm'
 
 const DoctorProfile = ({ doctorId }) => {
-  const [feedbacks, setFeedbacks] = useState([{ rating: '', comment: '', patientId: { username: 'Patient' }, date: new Date()}]);
+  const [feedbacks, setFeedbacks] = useState([
+    {
+      rating: '',
+      comment: '',
+      patientId: { username: 'Patient' },
+      date: new Date(),
+    },
+  ])
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const feedbackData = await feedbackService.getFeedbackForDoctor(doctorId);
-        setFeedbacks(feedbackData);
+        const feedbackData =
+          await feedbackService.getFeedbackForDoctor(doctorId)
+        setFeedbacks(feedbackData)
       } catch (error) {
-        console.error('Error fetching feedback:', error);
+        console.error('Error fetching feedback:', error)
       }
-    };
+    }
 
-    fetchFeedbacks();
-  }, [doctorId]);
+    fetchFeedbacks()
+  }, [doctorId])
 
   return (
     <div>
@@ -35,11 +43,11 @@ const DoctorProfile = ({ doctorId }) => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
 DoctorProfile.propTypes = {
   doctorId: PropTypes.string.isRequired,
-};
+}
 
-export default DoctorProfile;
+export default DoctorProfile

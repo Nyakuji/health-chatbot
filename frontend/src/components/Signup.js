@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import authService from '../services/authService';
+import React, { useState } from 'react'
+import authService from '../services/authService'
 
 const Signup = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [medicalId, setMedicalId] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [role, setRole] = useState('patient');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [medicalId, setMedicalId] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [role, setRole] = useState('patient')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userData = { username, email, password, medicalId, phoneNumber, role };
+    e.preventDefault()
+    const userData = { username, email, password, medicalId, phoneNumber, role }
     try {
-      await authService.signup(userData);
-      setMessage('Signup successful! Please log in.');
+      await authService.signup(userData)
+      setMessage('Signup successful! Please log in.')
     } catch (error) {
-      setMessage(error.response.data.error);
+      setMessage(error.response.data.error)
     }
-  };
+  }
 
   return (
     <div>
@@ -27,27 +27,55 @@ const Signup = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Medical ID</label>
-          <input type="text" value={medicalId} onChange={(e) => setMedicalId(e.target.value)} required />
+          <input
+            type="text"
+            value={medicalId}
+            onChange={(e) => setMedicalId(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Phone Number</label>
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+          <input
+            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
         </div>
         <div>
           <label>Role</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)} required>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
             <option value="patient">Patient</option>
             <option value="doctor">Doctor</option>
           </select>
@@ -56,7 +84,7 @@ const Signup = () => {
       </form>
       {message && <p>{message}</p>}
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

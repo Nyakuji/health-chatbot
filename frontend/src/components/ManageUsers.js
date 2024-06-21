@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import adminService from '../services/adminService';
+import React, { useEffect, useState } from 'react'
+import adminService from '../services/adminService'
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([{ username: '', email: '', _id: ''}]);
+  const [users, setUsers] = useState([{ username: '', email: '', _id: '' }])
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const result = await adminService.getAllUsers();
-      setUsers(result);
-    };
-    fetchUsers();
-  }, []);
+      const result = await adminService.getAllUsers()
+      setUsers(result)
+    }
+    fetchUsers()
+  }, [])
 
   const handleDelete = async (userId) => {
-    await adminService.deleteUser(userId);
-    setUsers(users.filter(user => user._id !== userId));
-  };
+    await adminService.deleteUser(userId)
+    setUsers(users.filter((user) => user._id !== userId))
+  }
 
   return (
     <div>
       <h2>Manage Users</h2>
       <ul>
-        {users.map(user => (
+        {users.map((user) => (
           <li key={user._id}>
             {user.username} ({user.email})
             <button onClick={() => handleDelete(user._id)}>Delete</button>
@@ -29,7 +29,7 @@ const ManageUsers = () => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default ManageUsers;
+export default ManageUsers
