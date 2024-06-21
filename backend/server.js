@@ -36,7 +36,7 @@ app.use('/api/activity-log', activityLogRoutes)
 mongoose
   .connect(process.env.MONGODB_URI ?? 'mongodb://localhost/mydatabase')
   .then(() => {
-    console.log('Connected to MongoDB')
+    console.info('Connected to MongoDB')
   })
   .catch((err) => {
     console.error('Database connection error:', err)
@@ -53,7 +53,7 @@ server.on('upgrade', (request, socket, head) => {
 })
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  console.info(`Server running on port ${PORT}`)
 })
 
 module.exports = server
