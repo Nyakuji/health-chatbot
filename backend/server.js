@@ -16,12 +16,17 @@ const PORT = process.env.PORT || 5000
 require('dotenv').config()
 const { wss } = require('./websocket')
 const http = require('http')
+const path = require('path')
 
 // Middleware
 app.use(cors())
 app.use(express.json())
 
-// Routes
+// Disable ESLint no-undef rule for the next line
+// eslint-disable-next-line no-undef
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+// Define Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/symptom', symptomRoutes)
 app.use('/api/appointment', appointmentRoutes)

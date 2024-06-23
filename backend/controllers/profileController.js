@@ -1,5 +1,37 @@
 const User = require('../models/userModel')
 const Appointment = require('../models/appointmentModel')
+const multer = require('multer')
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage })
+
+exports.uploadProfilePicture = [
+  upload.single('profilePicture'),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.userId)
+      if (!user) {
+        return res.status(404).send('User not found')
+      }
+
+      user.profilePicture = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+      await user.save()
+
+      res.send(user)
+    } catch (error) {
+      res.status(400).send(error.message)
+    }
+  }
+]
 
 exports.updateProfile = async (req, res) => {
   const { userId, username, email, phoneNumber, medicalId } = req.body
