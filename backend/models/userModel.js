@@ -2,42 +2,42 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
-  username: { 
-    type: String, 
-    required: true, 
-    unique: true 
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true 
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  password: { 
-    type: String, 
-    required: true 
+  password: {
+    type: String,
+    required: true,
   },
-  phoneNumber: { 
-    type: String 
+  phoneNumber: {
+    type: String,
   },
-  medicalId: { 
-    type: String, 
-    unique: true, 
-    required: true
+  medicalId: {
+    type: String,
+    unique: true,
+    required: true,
   },
-  role: { 
-    type: String, 
-    enum: ['patient', 'doctor', 'admin'], 
-    required: true 
+  role: {
+    type: String,
+    enum: ['patient', 'doctor', 'admin'],
+    required: true,
   },
   specialty: {
-     type: String 
-    }, //for doctors
-  location: { 
-    type: String 
+    type: String,
   }, //for doctors
-  profilePicture: { 
-    type: String, 
-    default: '' 
+  location: {
+    type: String,
+  }, //for doctors
+  profilePicture: {
+    type: String,
+    default: '',
   },
 })
 

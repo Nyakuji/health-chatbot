@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`)
-  }
+  },
 })
 
 const upload = multer({ storage })
@@ -30,7 +30,7 @@ exports.uploadProfilePicture = [
     } catch (error) {
       res.status(400).send(error.message)
     }
-  }
+  },
 ]
 
 exports.updateProfile = async (req, res) => {
