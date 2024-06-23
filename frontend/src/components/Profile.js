@@ -3,6 +3,7 @@ import profileService from '../services/profileService'
 import authService from '../services/authService'
 
 const Profile = () => {
+  const [user, setUser] = useState({})
   const [profile, setProfile] = useState({
     username: '',
     email: '',
@@ -54,10 +55,43 @@ const Profile = () => {
       setMessage(error.response.data.message)
     }
   }
+  const [profilePicture, setProfilePicture] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const currentUser = authService.getCurrentUser()
+      const userData = await profileService.getUser(currentUser.id)
+      setUser(userData)
+    }
+
+    fetchUser()
+  }, [])
+
+  const handlePictureChange = (event) => {
+    setProfilePicture(event.target.files[0])
+  }
+
+  const handlePictureUpload = async () => {
+    const formData = new FormData()
+    formData.append('profilePicture', profilePicture)
+
+    try {
+      const updatedUser = await profileService.uploadProfilePicture(formData)
+      setUser(updatedUser)
+    } catch (error) {
+      console.error('Error uploading profile picture:', error)
+    }
+  }
 
   return (
     <div>
       <h2>Profile</h2>
+      <img src={user.profilePicture} alt="Profile" width="150" height="150" />
+      <h3>{user.username}</h3>
+      <p>Email: {user.email}</p>
+      <p>Role: {user.role}</p>
+      <input type="file" onChange={handlePictureChange} />
+      <button onClick={handlePictureUpload}>Upload Profile Picture</button>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username</label>

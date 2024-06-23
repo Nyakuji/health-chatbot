@@ -14,5 +14,32 @@ const getAppointmentHistory = async (userId) => {
   return response.data
 }
 
-const profileService = { updateProfile, getAppointmentHistory }
+const getUser = async (userId) => {
+  const response = await axios.get(`${API_URL}${userId}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  })
+  return response.data
+}
+
+const uploadProfilePicture = async (formData) => {
+  const response = await axios.post(
+    `${API_URL}uploadProfilePicture`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }
+  )
+  return response.data
+}
+
+const profileService = {
+  updateProfile,
+  getAppointmentHistory,
+  getUser,
+  uploadProfilePicture,
+}
+
 export default profileService
