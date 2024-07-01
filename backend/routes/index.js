@@ -1,0 +1,28 @@
+const express = require('express')
+const authRoutes = require('./authRoutes')
+const profileRoutes = require('./profileRoutes')
+const symptomRoutes = require('./symptomRoutes')
+const doctorRoutes = require('./doctorRoutes')
+const appointmentRoutes = require('./appointmentRoutes')
+const chatRoutes = require('./chatRoutes')
+const feedbackRoutes = require('./feedbackRoutes')
+const adminRoutes = require('./adminRoutes')
+const notificationRoutes = require('./notificationRoutes')
+const activityLogRoutes = require('./activityLogRoutes')
+const analyticsRoutes = require('./analyticsRoutes')
+
+const router = express.Router()
+
+router.use('/auth', authRoutes)
+router.use('/profile', profileRoutes)
+router.use('/symptom', symptomRoutes)
+router.use('/doctor', doctorRoutes)
+router.use('/appointment', appointmentRoutes)
+router.use('/notification', notificationRoutes)
+router.use('/chat', chatRoutes)
+router.use('/feedback', feedbackRoutes)
+router.use('/admin', adminRoutes)
+router.use('/activity-log', activityLogRoutes)
+router.use('/analytics', analyticsRoutes)
+
+module.exports = router
