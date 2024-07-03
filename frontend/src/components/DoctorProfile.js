@@ -20,7 +20,7 @@ const DoctorProfile = ({ doctorId }) => {
           await feedbackService.getFeedbackForDoctor(doctorId)
         setFeedbacks(feedbackData)
       } catch (error) {
-        console.error('Error fetching feedback:', error)
+        console.error('Error fetching feedback:', error) // eslint-disable-line no-console
       }
     }
 
@@ -30,7 +30,7 @@ const DoctorProfile = ({ doctorId }) => {
   return (
     <div>
       <h2>Doctor Profile</h2>
-      <FeedbackForm doctorId={doctorId} />
+      <FeedbackForm doctorId={String(doctorId)} />
       <h3>Feedback</h3>
       <ul>
         {feedbacks.map((feedback) => (
