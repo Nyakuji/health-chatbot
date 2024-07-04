@@ -5,11 +5,21 @@ const {
   cancelAppointment,
   getAppointmentHistory,
 } = require('../controllers/appointmentController')
+const {
+  verifyToken,
+  isDoctor,
+  isPatient,
+} = require('../middleware/authMiddleware')
+const {
+  validateAppointmentId,
+  validateUserId,
+} = require('../middleware/validateMiddleware')
+
 const router = express.Router()
 
-router.get('/availability', getDoctorAvailability)
-router.post('/book', bookAppointment)
-router.post('/cancel', cancelAppointment)
-router.get('/history', getAppointmentHistory)
+router.post('/book', verifyToken, isPatient, bookAppointment)
+router.get('/availability', verifyToken, isDoctor, getDoctorAvailability)
+router.post('/cancel', verifyToken, validateAppointmentId, cancelAppointment)
+router.get('/history', verifyToken, validateUserId, getAppointmentHistory)
 
 module.exports = router
