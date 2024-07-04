@@ -4,7 +4,7 @@
   "description": "Backend for the Health Chatbot application",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "dev": "nodemon server.js",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint '**/*.js' --fix",
@@ -26,7 +26,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.1",
+    "mongoose": "^8.4.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.13",
     "openai": "^4.51.0",
@@ -39,6 +39,7 @@
     "@babel/preset-env": "^7.24.7",
     "@eslint/js": "^9.5.0",
     "@types/chai": "^4.3.16",
+    "@types/express": "^4.17.21",
     "@types/mocha": "^10.0.7",
     "@types/node": "^20.14.2",
     "@types/sinon": "^17.0.3",
@@ -55,10 +56,10 @@
     "mongodb-memory-server": "^9.4.0",
     "nodemon": "^2.0.15",
     "prettier": "^3.3.2",
-    "sinon": "^18.0.0"
+    "sinon": "^18.0.0",
+    "supertest": "^7.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
   }
 }
-
