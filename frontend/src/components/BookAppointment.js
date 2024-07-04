@@ -10,17 +10,18 @@ const BookAppointment = () => {
   const [symptoms, setSymptoms] = useState('')
   const [contactInfo, setContactInfo] = useState('')
   const [notificationType, setNotificationType] = useState('email')
-  const [availability, setAvailability] = useState([
-    { available: false, time: '' },
-  ])
+  const [availability, setAvailability] = useState([])
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (doctorId && date) {
+      setLoading(true)
       appointmentService
         .getDoctorAvailability(doctorId, date)
-        .then((data) => setAvailability(data.availability.slots))
+        .then((data) => setAvailability(data.availability?.slots || []))
         .catch((err) => setMessage(err.message))
+        .finally(() => setLoading(false))
     }
   }, [doctorId, date])
 
@@ -38,38 +39,48 @@ const BookAppointment = () => {
       }
       const result = await appointmentService.bookAppointment(appointmentData)
       setMessage(result.message)
+      setDoctorId('')
+      setPatientName('')
+      setDate('')
+      setTime('')
+      setSymptoms('')
+      setContactInfo('')
     } catch (error) {
-      setMessage(error.response.data.message)
+      setMessage(error.response?.data?.message || 'Error booking appointment')
     }
   }
 
-  const handleCancel = async (e) => {
-    e.preventDefault()
+  const handleCancel = async () => {
     try {
       const appointmentId = prompt('Enter Appointment ID to cancel:')
-      const result = await appointmentService.cancelAppointment(
-        appointmentId,
-        contactInfo,
-        notificationType
-      )
-      setMessage(result.message)
+      if (appointmentId) {
+        const result = await appointmentService.cancelAppointment(
+          appointmentId,
+          contactInfo,
+          notificationType
+        )
+        setMessage(result.message)
+      }
     } catch (error) {
-      setMessage(error.response.data.message)
+      setMessage(
+        error.response?.data?.message || 'Error cancelling appointment'
+      )
     }
   }
 
-  const handleSendReminder = async (e) => {
-    e.preventDefault()
+  const handleSendReminder = async () => {
     try {
       const appointmentId = prompt('Enter Appointment ID to send reminder:')
-      const result = await notificationService.sendReminder(
-        appointmentId,
-        contactInfo,
-        notificationType
-      )
-      setMessage(result.message)
+      if (appointmentId) {
+        const result = await notificationService.sendReminder(
+          appointmentId,
+          contactInfo,
+          notificationType
+        )
+        setMessage(result.message)
+      }
     } catch (error) {
-      setMessage(error.response.data.message)
+      setMessage(error.response?.data?.message || 'Error sending reminder')
     }
   }
 
@@ -149,10 +160,16 @@ const BookAppointment = () => {
             required
           ></textarea>
         </div>
-        <button type="submit">Book Appointment</button>
+        <button type="submit" disabled={!doctorId || !date || loading}>
+          {loading ? 'Loading...' : 'Book Appointment'}
+        </button>
       </form>
-      <button onClick={handleCancel}>Cancel Appointment</button>
-      <button onClick={handleSendReminder}>Send Reminder</button>
+      <button onClick={handleCancel} disabled={!contactInfo}>
+        Cancel Appointment
+      </button>
+      <button onClick={handleSendReminder} disabled={!contactInfo}>
+        Send Reminder
+      </button>
       {message && <p>{message}</p>}
     </div>
   )
