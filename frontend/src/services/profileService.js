@@ -7,13 +7,6 @@ const updateProfile = async (profileData) => {
   return response.data
 }
 
-const getAppointmentHistory = async (userId) => {
-  const response = await axios.get(`${API_URL}appointments`, {
-    params: { userId },
-  })
-  return response.data
-}
-
 const getUser = async (userId) => {
   const response = await axios.get(`${API_URL}${userId}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -37,7 +30,6 @@ const uploadProfilePicture = async (formData) => {
 
 const profileService = {
   updateProfile,
-  getAppointmentHistory,
   getUser,
   uploadProfilePicture,
 }

@@ -27,9 +27,25 @@ const cancelAppointment = async (
   return response.data
 }
 
+const getAppointmentHistory = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}history`, {
+      params: { userId },
+    })
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error fetching appointment history:',
+      error.response ? error.response.data : error.message
+    ) //eslint-disable-line
+    throw error.response ? error.response.data : error.message
+  }
+}
+
 const appointmentService = {
   bookAppointment,
   getDoctorAvailability,
   cancelAppointment,
+  getAppointmentHistory,
 }
 export default appointmentService
