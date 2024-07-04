@@ -1,11 +1,12 @@
-const express = require('express')
+const express = require('express');
 const {
   createFeedback,
   getFeedbackForDoctor,
-} = require('../controllers/feedbackController')
-const router = express.Router()
+} = require('../controllers/feedbackController');
+const { verifyToken, isPatient } = require('../middleware/authMiddleware');
+const router = express.Router();
 
-router.post('/', createFeedback)
-router.get('/:doctorId', getFeedbackForDoctor)
+router.post('/', verifyToken, isPatient, createFeedback);
+router.get('/:doctorId', verifyToken, getFeedbackForDoctor);
 
-module.exports = router
+module.exports = router;
