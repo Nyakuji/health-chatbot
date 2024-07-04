@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import profileService from '../services/profileService'
+import appointmentService from '../services/appointmentService'
 import authService from '../services/authService'
 
 const Profile = () => {
@@ -10,24 +11,40 @@ const Profile = () => {
     phoneNumber: '',
     medicalId: '',
   })
-  const [appointments, setAppointments] = useState([
-    { _id: '', date: '', time: '', doctorId: { name: '' }, symptoms: '' },
-  ])
+  const [appointments, setAppointments] = useState([])
   const [message, setMessage] = useState('')
+  const [profilePicture, setProfilePicture] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Fetch user info and appointment history
     const fetchProfile = async () => {
-      const user = authService.getCurrentUser()
-      if (user) {
-        setProfile({
-          username: user.username,
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-          medicalId: user.medicalId,
-        })
-        const history = await profileService.getAppointmentHistory(user.id)
-        setAppointments(history.appointments)
+      setLoading(true)
+      try {
+        const currentUser = authService.getCurrentUser()
+        if (currentUser) {
+          const userData = await profileService.getUser(currentUser.id)
+          setUser(userData)
+
+          setProfile({
+            username: userData.username || '',
+            email: userData.email || '',
+            phoneNumber: userData.phoneNumber || '',
+            medicalId: userData.medicalId || '',
+          })
+
+          const history = await appointmentService.getAppointmentHistory(
+            currentUser.id
+          )
+          setAppointments(history.appointments || [])
+        }
+      } catch (error) {
+        console.error(
+          'Error fetching profile:',
+          error.response ? error.response.data : error.message
+        )
+        setMessage('Error fetching profile')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -45,48 +62,58 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const user = authService.getCurrentUser()
+      const currentUser = authService.getCurrentUser()
       const result = await profileService.updateProfile({
         ...profile,
-        userId: user.id,
+        userId: currentUser.id,
       })
       setMessage(result.message)
     } catch (error) {
-      setMessage(error.response.data.message)
+      console.error(
+        'Error updating profile:',
+        error.response ? error.response.data : error.message
+      )
+      setMessage('Error updating profile')
     }
   }
-  const [profilePicture, setProfilePicture] = useState(null)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = authService.getCurrentUser()
-      const userData = await profileService.getUser(currentUser.id)
-      setUser(userData)
-    }
-
-    fetchUser()
-  }, [])
 
   const handlePictureChange = (event) => {
     setProfilePicture(event.target.files[0])
   }
 
   const handlePictureUpload = async () => {
+    if (!profilePicture) {
+      console.error('No profile picture selected')
+      setMessage('No profile picture selected')
+      return
+    }
+
     const formData = new FormData()
     formData.append('profilePicture', profilePicture)
 
     try {
       const updatedUser = await profileService.uploadProfilePicture(formData)
       setUser(updatedUser)
+      setMessage('Profile picture updated successfully')
     } catch (error) {
-      console.error('Error uploading profile picture:', error)
+      console.error(
+        'Error uploading profile picture:',
+        error.response ? error.response.data : error.message
+      )
+      setMessage('Error uploading profile picture')
     }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (
     <div>
       <h2>Profile</h2>
-      <img src={user.profilePicture} alt="Profile" width="150" height="150" />
+      {user.profilePicture && (
+        <img src={user.profilePicture} alt="Profile" width="150" height="150" />
+      )}
       <h3>{user.username}</h3>
       <p>Email: {user.email}</p>
       <p>Role: {user.role}</p>
@@ -140,7 +167,7 @@ const Profile = () => {
         {appointments.map((appointment) => (
           <li key={appointment._id}>
             {appointment.date} - {appointment.time} with Dr.{' '}
-            {appointment.doctorId.name} for {appointment.symptoms}
+            {appointment.doctorId?.name} for {appointment.symptoms}
           </li>
         ))}
       </ul>
