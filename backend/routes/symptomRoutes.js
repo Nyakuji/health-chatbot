@@ -1,8 +1,8 @@
-const express = require('express');
-const { checkSymptoms } = require('../controllers/symptomController');
-const { verifyToken } = require('../middleware/authMiddleware');
-const router = express.Router();
+const { checkSymptoms } = require('../controllers/symptomController')
+const { verifyToken } = require('../middleware/authMiddleware')
 
-router.post('/check', verifyToken, checkSymptoms);
+const symptomRoutes = (app) => {
+  app.post('/api/symptoms/check', verifyToken, checkSymptoms)
+}
 
-module.exports = router;
+module.exports = symptomRoutes

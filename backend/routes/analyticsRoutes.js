@@ -1,11 +1,8 @@
-const express = require('express')
 const { getAnalyticsData } = require('../controllers/analyticsController')
 const { verifyToken, isAdmin } = require('../middleware/authMiddleware')
-const router = express.Router()
 
-router.use(verifyToken)
-router.use(isAdmin)
+const analyticsRoutes = (app) => {
+  app.get('/api/analytics/data', verifyToken, isAdmin, getAnalyticsData)
+}
 
-router.get('/data', getAnalyticsData)
-
-module.exports = router
+module.exports = analyticsRoutes

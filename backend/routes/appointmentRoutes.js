@@ -1,4 +1,3 @@
-const express = require('express')
 const {
   bookAppointment,
   getDoctorAvailability,
@@ -15,11 +14,11 @@ const {
   validateUserId,
 } = require('../middleware/validateMiddleware')
 
-const router = express.Router()
+const appointmentRoutes = (app) => {
+  app.post('/api/book', verifyToken, isPatient, bookAppointment)
+  app.get('/api/availability', isDoctor, getDoctorAvailability)
+  app.post('/api/cancel', verifyToken, validateAppointmentId, cancelAppointment)
+  app.get('/api/history', verifyToken, validateUserId, getAppointmentHistory)
+}
 
-router.post('/book', verifyToken, isPatient, bookAppointment)
-router.get('/availability', verifyToken, isDoctor, getDoctorAvailability)
-router.post('/cancel', verifyToken, validateAppointmentId, cancelAppointment)
-router.get('/history', verifyToken, validateUserId, getAppointmentHistory)
-
-module.exports = router
+module.exports = appointmentRoutes
