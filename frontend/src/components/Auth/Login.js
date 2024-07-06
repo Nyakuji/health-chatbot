@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authService from '../../services/Auth/authService';
-import './Auth.module.css';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import authService from '../../services/Auth/authService'
+import './Auth.module.css'
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await authService.login({ username, password });
-      navigate('/profile');
+      await authService.login({ username, password })
+      navigate('/profile')
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
+  }
 
   return (
     <div className="auth-container">
@@ -42,10 +42,12 @@ const Login = () => {
           />
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="btn-primary">Login</button>
+        <button type="submit" className="btn-primary">
+          Login
+        </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

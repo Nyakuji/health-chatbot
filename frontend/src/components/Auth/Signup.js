@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authService from '../../services/Auth/authService';
-import './Auth.module.css';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import authService from '../../services/Auth/authService'
+import './Auth.module.css'
 
 const Signup = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await authService.signup({ username, password, email });
-      navigate('/login');
+      await authService.signup({ username, password, email })
+      navigate('/login')
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
+  }
 
   return (
     <div className="auth-container">
@@ -52,10 +52,12 @@ const Signup = () => {
           />
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="btn-primary">Sign Up</button>
+        <button type="submit" className="btn-primary">
+          Sign Up
+        </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup
