@@ -1,0 +1,9 @@
+.admin-dashboard {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.admin-dashboard h2 {
+  color: #343a40;
+  margin-bottom: 20px;
+}

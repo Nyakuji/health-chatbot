@@ -1,0 +1,10 @@
+.manage-appointments {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.manage-appointments h2 {
+  color: #343a40;
+  margin-bottom: 15px;
+}
