@@ -1,0 +1,20 @@
+.chat-message {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.sent {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.received {
+  background-color: #ffffff;
+  align-self: flex-start;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: gray;
+}
