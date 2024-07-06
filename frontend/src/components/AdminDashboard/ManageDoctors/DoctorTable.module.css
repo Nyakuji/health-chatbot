@@ -1,0 +1,16 @@
+.doctor-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.doctor-table th,
+.doctor-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.doctor-table th {
+  background-color: #28a745;
+  color: white;
+}
