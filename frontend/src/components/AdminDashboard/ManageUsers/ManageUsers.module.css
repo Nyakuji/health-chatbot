@@ -1,0 +1,10 @@
+.manage-users {
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.manage-users h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
