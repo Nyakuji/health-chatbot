@@ -1,3 +1,4 @@
+// @ts-nocheck
 const process = require('process')
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
