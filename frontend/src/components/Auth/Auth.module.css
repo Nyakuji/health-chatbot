@@ -1,53 +1,45 @@
 .auth-container {
   max-width: 400px;
   margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.auth-container h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
 }
 
-.form-group label {
+label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  margin-bottom: 0.5em;
 }
 
-.form-group input,
-.form-group select {
+input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.5em;
+  box-sizing: border-box;
 }
 
 .btn-primary {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+  background: #007bff;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  padding: 0.75em 1.5em;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
 .error-message {
-  color: #ff0000;
-  text-align: center;
-  margin-top: 1rem;
+  color: red;
+  margin-top: 1em;
+}
+
+.success-message {
+  color: green;
+  margin-top: 1em;
 }

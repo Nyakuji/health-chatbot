@@ -11,10 +11,13 @@ const Signup = () => {
   const [medicalId, setMedicalId] = useState('')
   const [role, setRole] = useState('patient') // Default role
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('') // Add this line
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('') // Clear previous errors
+    setMessage('') // Clear previous messages
     if (!email && !phoneNumber) {
       setError('Either email or phone number is required.')
       return
@@ -28,9 +31,11 @@ const Signup = () => {
         medicalId,
         role,
       })
-      navigate('/login')
+      setMessage('Signup successful! Redirecting to login page...')
+      // Redirect to login page after 1.5 seconds
+      setTimeout(() => navigate('/login'), 1500)
     } catch (err) {
-      setError(err.message)
+      setError(err.response?.data?.error || 'Error signing up')
     }
   }
 
@@ -94,6 +99,7 @@ const Signup = () => {
           </select>
         </div>
         {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
         <button type="submit" className="btn-primary">
           Sign Up
         </button>

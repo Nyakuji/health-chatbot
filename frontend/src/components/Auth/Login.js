@@ -7,15 +7,24 @@ const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('') // Clear previous errors
+    setMessage('') // Clear previous messages
     try {
-      await authService.login({ username, password })
-      navigate('/profile')
+      const response = await authService.login({ username, password })
+      localStorage.setItem('token', response.token) // Save token to localStorage
+      localStorage.setItem('user', JSON.stringify(response.user)) // Save user info to localStorage
+      setMessage('Login successful!')
+      // Redirect to profile or dashboard based on user role
+      setTimeout(() => {
+        navigate('/profile')
+      }, 1500) // Redirect after 1.5 seconds
     } catch (err) {
-      setError(err.message)
+      setError(err.response?.data?.error || 'Error logging in')
     }
   }
 
@@ -42,6 +51,7 @@ const Login = () => {
           />
         </div>
         {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
         <button type="submit" className="btn-primary">
           Login
         </button>
