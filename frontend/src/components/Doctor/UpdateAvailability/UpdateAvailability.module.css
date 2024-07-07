@@ -1,0 +1,13 @@
+.update-availability {
+  margin-top: 20px;
+}
+
+.add-slot-button,
+.update-button {
+  margin-top: 20px;
+}
+
+.message {
+  margin-top: 10px;
+  color: green;
+}
