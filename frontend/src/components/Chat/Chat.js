@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   Paper,
   TextField,
@@ -9,51 +9,63 @@ import {
   ListItemText,
   Typography,
   Container,
-} from '@mui/material'
-import chatService from '../../services/Chat/chatService'
-import authService from '../../services/Auth/authService'
-import './Chat.module.css'
+} from '@mui/material';
+import chatService from '../../services/Chat/chatService';
+import authService from '../../services/Auth/authService';
+import websocketService from '../../services/websocketService';
+import './Chat.module.css';
 
 const Chat = ({ receiverId }) => {
-  const [messages, setMessages] = useState([
-    { sender: '', receiver: '', message: '', timestamp: '' },
-  ])
-  const [newMessage, setNewMessage] = useState('')
-  const currentUser = authService.getCurrentUser()
+  const [messages, setMessages] = useState([{}]);
+  const [newMessage, setNewMessage] = useState('');
+  const currentUser = authService.getCurrentUser();
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const messages = await chatService.getMessages(
-          currentUser.id,
-          receiverId
-        )
-        setMessages(messages)
+        const messages = await chatService.getMessages(currentUser.id, receiverId);
+        setMessages(messages);
       } catch (error) {
-        console.error('Error fetching messages:', error)
+        console.error('Error fetching messages:', error);
       }
+    };
+
+    fetchMessages();
+  }, [receiverId, currentUser.id]);
+
+  useEffect(() => {
+    if (currentUser) {
+      websocketService.connect(currentUser.id);
+
+      websocketService.socket.onmessage = (event) => {
+        const receivedMessage = JSON.parse(event.data);
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      };
+
+      return () => {
+        websocketService.disconnect();
+      };
     }
+  }, [currentUser]);
 
-    fetchMessages()
-  }, [receiverId, currentUser.id])
-
-  const handleSendMessage = async () => {
-    if (newMessage.trim() === '') return
+  const handleSendMessage = () => {
+    if (newMessage.trim() === '') return;
 
     const messageData = {
       sender: currentUser.id,
       receiver: receiverId,
       message: newMessage,
-    }
+      timestamp: new Date(),
+    };
 
     try {
-      const message = await chatService.sendMessage(messageData)
-      setMessages([...messages, message])
-      setNewMessage('')
+      websocketService.sendMessage(messageData);
+      setMessages((prevMessages) => [...prevMessages, messageData]);
+      setNewMessage('');
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error('Error sending message:', error);
     }
-  }
+  };
 
   return (
     <Container maxWidth="md">
@@ -69,9 +81,7 @@ const Chat = ({ receiverId }) => {
             >
               <ListItemText
                 primary={msg.message}
-                secondary={
-                  msg.timestamp && new Date(msg.timestamp).toLocaleString()
-                }
+                secondary={msg.timestamp && new Date(msg.timestamp).toLocaleString()}
               />
             </ListItem>
           ))}
@@ -94,11 +104,11 @@ const Chat = ({ receiverId }) => {
         </div>
       </Paper>
     </Container>
-  )
-}
+  );
+};
 
 Chat.propTypes = {
   receiverId: PropTypes.string.isRequired,
-}
+};
 
-export default Chat
+export default Chat;
