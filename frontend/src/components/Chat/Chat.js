@@ -52,7 +52,9 @@ const Chat = ({ receiverId }) => {
   }, [currentUser])
 
   const handleSendMessage = () => {
-    if (newMessage.trim() === '') return
+    if (newMessage.trim() === '') {
+      return
+    }
 
     const messageData = {
       sender: currentUser.id,
