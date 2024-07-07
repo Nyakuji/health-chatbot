@@ -31,17 +31,17 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public'))) //eslint-disable-line
 
 // Routes
-authRoutes(app) //authRoutes(app)
-profileRoutes(app) //profileRoutes(app)
-symptomRoutes(app) //symptomRoutes(app)
-appointmentRoutes(app) //appointmentRoutes(app)
-notificationRoutes(app) //notificationRoutes(app)
-doctorRoutes(app) //doctorRoutes(app)
-chatRoutes(app) //chatRoutes(app)
-adminRoutes(app) //adminRoutes(app
-activityLogRoutes(app) //activityLogRoutes(app)
-analyticsRoutes(app) //analyticsRoutes(app)
-feedbackRoutes(app) //feedbackRoutes(app)
+authRoutes(app); //authRoutes(app)
+profileRoutes(app);//profileRoutes(app)
+symptomRoutes(app); //symptomRoutes(app)
+appointmentRoutes(app); //appointmentRoutes(app)
+notificationRoutes(app); //notificationRoutes(app)
+doctorRoutes(app); //doctorRoutes(app)
+chatRoutes(app); //chatRoutes(app)
+adminRoutes(app); //adminRoutes(app
+activityLogRoutes(app); //activityLogRoutes(app)
+analyticsRoutes(app); //analyticsRoutes(app)
+feedbackRoutes(app); //feedbackRoutes(app)
 
 // Static file serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))) //eslint-disable-line
@@ -49,7 +49,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))) //eslint-di
 // MongoDB connection
 mongoose
   .connect(
-    process.env.MONGOconnectionDB_URI ?? 'mongodb://localhost/mydatabase',
+    process.env.MONGODB_URI ?? 'mongodb://localhost/mydatabase',
   )
   .then(() => {
     console.info('Connected to MongoDB')
