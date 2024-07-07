@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button, Grid, Typography } from '@mui/material'
 import appointmentService from '../../../services/Appointments/appointmentService'
+import websocketService from '../../../services/websocketService'
 import './DoctorAvailability.module.css'
 
 const DoctorAvailability = () => {
@@ -8,6 +9,21 @@ const DoctorAvailability = () => {
   const [date, setDate] = useState('')
   const [availability, setAvailability] = useState([{ time: '' }])
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    websocketService.connect('doctorAvailabilityUser') // Replace with actual user ID or role if needed
+
+    websocketService.socket.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      if (data.type === 'AVAILABILITY_UPDATE') {
+        setAvailability(data.availability)
+      }
+    }
+
+    return () => {
+      websocketService.disconnect()
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
