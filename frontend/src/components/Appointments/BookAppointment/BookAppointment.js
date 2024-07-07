@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button, Grid, Typography } from '@mui/material'
 import appointmentService from '../../../services/Appointments/appointmentService'
+import websocketService from '../../../services/websocketService'
 import './BookAppointment.module.css'
 
 const BookAppointment = () => {
@@ -15,6 +16,14 @@ const BookAppointment = () => {
   })
   const [message, setMessage] = useState('')
 
+  useEffect(() => {
+    websocketService.connect('bookAppointmentUser') // Replace with actual user ID or role if needed
+
+    return () => {
+      websocketService.disconnect()
+    }
+  }, [])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prevForm) => ({
@@ -28,6 +37,11 @@ const BookAppointment = () => {
     try {
       const result = await appointmentService.bookAppointment(form)
       setMessage(result.message)
+
+      websocketService.sendMessage({
+        type: 'APPOINTMENT_BOOKED',
+        appointment: form,
+      })
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error booking appointment')
     }
