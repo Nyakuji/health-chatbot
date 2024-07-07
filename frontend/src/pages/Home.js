@@ -1,12 +1,17 @@
 import React from 'react'
 import { Typography, Container } from '@mui/material'
 import CustomButton from '../components/Button'
+import './Home.module.css'
 
 const Home = () => {
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <Container className="Home">
+      <Typography variant="h2" gutterBottom>
         Welcome to Health Chatbot
+      </Typography>
+      <Typography variant="body1">
+        Your health companion for managing appointments, checking symptoms, and
+        more.
       </Typography>
       <CustomButton
         variant="contained"
