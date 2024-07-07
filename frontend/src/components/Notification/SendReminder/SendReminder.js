@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button, Typography, Grid } from '@mui/material'
 import notificationService from '../../../services/Notification/notificationService'
+import websocketService from '../../../services/websocketService'
 import './SendReminder.module.css'
 
 const SendReminder = () => {
@@ -8,6 +9,19 @@ const SendReminder = () => {
   const [contactInfo, setContactInfo] = useState('')
   const [notificationType, setNotificationType] = useState('email')
   const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    websocketService.connect('reminderUser') // to be replaced by actual user ID or role if needed
+
+    websocketService.socket.onmessage = (event) => {
+      const receivedMessage = JSON.parse(event.data)
+      setMessage(receivedMessage.message)
+    }
+
+    return () => {
+      websocketService.disconnect()
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -19,6 +33,12 @@ const SendReminder = () => {
       }
       const result = await notificationService.sendReminder(reminderData)
       setMessage(result.message)
+      websocketService.sendMessage({
+        type: 'REMINDER_SENT',
+        appointmentId,
+        contactInfo,
+        notificationType,
+      })
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error sending reminder')
     }
