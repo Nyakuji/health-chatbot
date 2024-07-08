@@ -41,23 +41,29 @@ const Signup = () => {
 
   return (
     <div className="auth-container">
-      <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
+            name="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            autoComplete="username"
           />
         </div>
         <div className="form-group">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+            autoComplete="username"
           />
         </div>
         <div className="form-group">
@@ -69,12 +75,15 @@ const Signup = () => {
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="username"
           />
         </div>
         <div className="form-group">

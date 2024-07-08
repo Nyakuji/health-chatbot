@@ -27,11 +27,17 @@ const getCurrentUser = () => {
   return user ? JSON.parse(user) : null
 }
 
+const getToken = () => {
+  const user = getCurrentUser()
+  return user?.token
+}
+
 const authService = {
   signup,
   login,
   logout,
   getCurrentUser,
+  getToken,
 }
 
 export default authService

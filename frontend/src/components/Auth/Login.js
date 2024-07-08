@@ -17,6 +17,8 @@ const Login = () => {
     try {
       const response = await authService.login({ username, password })
       localStorage.setItem('token', response.token) // Save token to localStorage
+      localStorage.setItem('userRole', response.user.role) // Save user role to localStorage
+      localStorage.setItem('userId', response.user.id) // Save user id to localStorage
       localStorage.setItem('user', JSON.stringify(response.user)) // Save user info to localStorage
       setMessage('Login successful!')
       // Redirect to profile or dashboard based on user role
@@ -30,24 +32,29 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
+            name="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            autoComplete="username"
           />
         </div>
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="username"
           />
         </div>
         {error && <p className="error-message">{error}</p>}
