@@ -1,22 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router-dom'
-import authService from '../services/authService'
+import { AuthContext } from '../contexts/AuthContext'
 
 const PrivateRoute = ({ roles }) => {
-  const currentUser = authService.getCurrentUser()
+  const { user } = useContext(AuthContext)
 
-  if (!currentUser) {
-    // Not logged in, redirect to login page
-    return <Navigate to="/login" replace />
+  if (!user) {
+    // Redirect to login if user is not authenticated
+    return <Navigate to="/login" />
   }
 
-  if (roles && roles.indexOf(currentUser.role) === -1) {
-    // Role not authorized
-    return <Navigate to="/" replace />
+  if (roles && !roles.includes(user.role)) {
+    // Redirect to unauthorized page or home if user does not have the correct role
+    return <Navigate to="/unauthorized" />
   }
 
-  // Authorized, render the requested component
+  // Render the child components
   return <Outlet />
 }
 
