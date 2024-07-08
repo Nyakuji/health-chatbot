@@ -40,99 +40,115 @@ const AppRoutes = () => {
         path="/profile"
         element={<PrivateRoute roles={['patient', 'doctor', 'admin']} />}
       >
-        <Route index element={<Profile />} />
-        <Route path="form" element={<ProfileForm />} />
-        <Route path="upload-picture" element={<UploadProfilePicture />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
       <Route
         path="/book-appointment"
         element={<PrivateRoute roles={['patient']} />}
       >
-        <Route index element={<BookAppointment />} />
+        <Route path="/book-appointment" element={<BookAppointment />} />
       </Route>
       <Route
         path="/doctor-availability"
         element={<PrivateRoute roles={['doctor']} />}
       >
-        <Route index element={<DoctorAvailability />} />
+        <Route path="/doctor-availability" element={<DoctorAvailability />} />
       </Route>
       <Route path="/manage-users" element={<PrivateRoute roles={['admin']} />}>
-        <Route index element={<ManageUsers />} />
+        <Route path="/manage-users" element={<ManageUsers />} />
       </Route>
       <Route
         path="/manage-doctors"
         element={<PrivateRoute roles={['admin']} />}
       >
-        <Route index element={<ManageDoctors />} />
+        <Route path="/manage-doctors" element={<ManageDoctors />} />
       </Route>
       <Route
         path="/manage-appointments"
         element={<PrivateRoute roles={['admin']} />}
       >
-        <Route index element={<ManageAppointments />} />
+        <Route path="/manage-appointments" element={<ManageAppointments />} />
       </Route>
       <Route
         path="/admin-dashboard"
         element={<PrivateRoute roles={['admin']} />}
       >
-        <Route index element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Route>
       <Route
         path="/chat"
         element={<PrivateRoute roles={['patient', 'doctor']} />}
       >
-        <Route index element={<Chat receiverId="123" />} />
+        <Route path="/chat" element={<Chat receiverId="123" />} />
       </Route>
       <Route
         path="/symptom-checker"
         element={<PrivateRoute roles={['patient']} />}
       >
-        <Route index element={<SymptomChecker />} />
+        <Route path="/symptom-checker" element={<SymptomChecker />} />
       </Route>
       <Route
         path="/doctor-search"
         element={<PrivateRoute roles={['patient']} />}
       >
-        <Route index element={<DoctorSearch />} />
+        <Route path="/doctor-search" element={<DoctorSearch />} />
       </Route>
       <Route path="/send-reminder" element={<PrivateRoute roles={['admin']} />}>
-        <Route index element={<SendReminder />} />
+        <Route path="/send-reminder" element={<SendReminder />} />
       </Route>
       <Route
         path="/update-availability"
         element={<PrivateRoute roles={['doctor']} />}
       >
-        <Route index element={<UpdateAvailability />} />
+        <Route path="/update-availability" element={<UpdateAvailability />} />
       </Route>
       <Route
         path="/cancel-appointment"
         element={<PrivateRoute roles={['patient']} />}
       >
-        <Route index element={<CancelAppointment />} />
+        <Route path="/cancel-appointment" element={<CancelAppointment />} />
       </Route>
       <Route
         path="/appointment-history"
         element={<PrivateRoute roles={['patient']} />}
       >
-        <Route index element={<AppointmentHistory />} />
+        <Route path="/appointment-history" element={<AppointmentHistory />} />
       </Route>
       <Route path="/feedback-list" element={<PrivateRoute roles={['admin']} />}>
-        <Route index element={<FeedbackList doctorId="123" />} />
+        <Route
+          path="/feedback-list"
+          element={<FeedbackList doctorId="123" />}
+        />
       </Route>
       <Route
         path="/feedback-form"
         element={<PrivateRoute roles={['patient', 'doctor']} />}
       >
-        <Route index element={<FeedbackForm />} />
+        <Route path="/feedback-form" element={<FeedbackForm />} />
       </Route>
       <Route path="/activity-log" element={<PrivateRoute roles={['admin']} />}>
-        <Route index element={<ActivityLog />} />
+        <Route path="/activity-log" element={<ActivityLog />} />
       </Route>
       <Route
         path="/analytics-dashboard"
         element={<PrivateRoute roles={['admin']} />}
       >
-        <Route index element={<AnalyticsDashboard />} />
+        <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
+      </Route>
+      <Route
+        path="/profile-form"
+        element={<PrivateRoute roles={['patient', 'doctor']} />}
+      >
+        <Route path="/profile-form" element={<ProfileForm />} />
+      </Route>
+      <Route
+        path="/upload-profile-picture"
+        element={<PrivateRoute roles={['patient', 'doctor']} />}
+      >
+        <Route
+          path="/upload-profile-picture"
+          element={<UploadProfilePicture />}
+        />
       </Route>
     </Routes>
   )
