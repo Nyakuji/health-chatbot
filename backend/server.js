@@ -24,11 +24,28 @@ const feedbackRoutes = require('./routes/feedbackRoutes')
 // Express app
 const app = express()
 
+
 // Middleware
-app.use(cors())
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [process.env.FRONTEND_URL]
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    } else {
+      return callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true, // Allow cookies to be sent with requests
+}))
+
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public'))) //eslint-disable-line
+
 
 // Routes
 authRoutes(app); //authRoutes(app)
@@ -42,6 +59,7 @@ adminRoutes(app); //adminRoutes(app
 activityLogRoutes(app); //activityLogRoutes(app)
 analyticsRoutes(app); //analyticsRoutes(app)
 feedbackRoutes(app); //feedbackRoutes(app)
+
 
 // Static file serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))) //eslint-disable-line
