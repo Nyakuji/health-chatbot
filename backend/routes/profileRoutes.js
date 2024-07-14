@@ -6,9 +6,9 @@ const {
 } = require('../controllers/profileController')
 
 const profileRoutes = (app) => {
-  app.get('/api/:userId', verifyToken, getProfile)
-  app.post('/api/uploadProfilePicture', verifyToken, uploadProfilePicture)
-  app.post('/api/update', verifyToken, updateProfile)
+  app.get('/api/profile/:userId', verifyToken, getProfile)
+  app.post('/api/profile/uploadProfilePicture', verifyToken, uploadProfilePicture)
+  app.post('/api/profile/update', verifyToken, updateProfile)
 }
 
 module.exports = profileRoutes
