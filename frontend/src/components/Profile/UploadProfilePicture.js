@@ -1,68 +1,66 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Avatar, Typography } from '@mui/material'
-import profileService from '../../services/Profile/profileService'
-import authService from '../../services/Auth/authService'
-import './UploadProfilePicture.module.css'
+import React, { useState } from 'react'
+import { uploadProfilePicture } from '../../services/api'
+import {
+  Container,
+  Button,
+  Typography,
+  TextField,
+  Paper,
+  Box,
+} from '@mui/material'
 
 const UploadProfilePicture = () => {
-  const [profilePicture, setProfilePicture] = useState(null)
-  const [user, setUser] = useState({ profilePicture: '', username: '' })
+  const [file, setFile] = useState(null)
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const currentUser = authService.getCurrentUser()
-      if (currentUser) {
-        const userData = await profileService.getProfile(currentUser.id)
-        setUser(userData)
-      }
-    }
-
-    fetchUser()
-  }, [])
-
-  const handlePictureChange = (event) => {
-    setProfilePicture(event.target.files[0])
+  const handleChange = (e) => {
+    setFile(e.target.files[0])
   }
 
-  const handlePictureUpload = async () => {
-    if (!profilePicture) {
-      console.error('No profile picture selected')
-      return
-    }
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
     const formData = new FormData()
-    formData.append('profilePicture', profilePicture)
-
-    try {
-      const updatedUser = await profileService.uploadProfilePicture(formData)
-      setUser(updatedUser)
-    } catch (error) {
-      console.error('Error uploading profile picture:', error) //eslint-disable-line no-console
+    if (file) {
+      formData.append('profilePicture', file)
     }
+    uploadProfilePicture(formData)
+      .then((response) => {
+        console.log(response.data) // eslint-disable-line no-console
+        alert('Profile picture uploaded successfully')
+      })
+      .catch((error) => {
+        console.error(error) // eslint-disable-line no-console
+        alert('Failed to upload profile picture')
+      })
   }
 
   return (
-    <div className="upload-profile-picture">
-      <Avatar
-        src={user.profilePicture}
-        alt="Profile"
-        className="profile-avatar"
-      />
-      <Typography variant="h6">{user.username}</Typography>
-      <input
-        type="file"
-        onChange={handlePictureChange}
-        className="upload-input"
-      />
-      <Button
-        onClick={handlePictureUpload}
-        variant="contained"
-        color="primary"
-        className="upload-button"
-      >
-        Upload Profile Picture
-      </Button>
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Upload Profile Picture
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            type="file"
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+          />
+          <Box mt={2} display="flex" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              Upload Picture
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Container>
   )
 }
 
