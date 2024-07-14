@@ -1,69 +1,72 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import authService from '../../services/Auth/authService'
-import './Auth.module.css'
+import { useAuth } from '../../contexts/AuthContext'
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Paper,
+} from '@mui/material'
+import { login as loginService } from '../../services/api'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+  const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setError('') // Clear previous errors
-    setMessage('') // Clear previous messages
     try {
-      const response = await authService.login({ username, password })
-      localStorage.setItem('token', response.token) // Save token to localStorage
-      localStorage.setItem('userRole', response.user.role) // Save user role to localStorage
-      localStorage.setItem('userId', response.user.id) // Save user id to localStorage
-      localStorage.setItem('user', JSON.stringify(response.user)) // Save user info to localStorage
-      setMessage('Login successful!')
-      // Redirect to profile or dashboard based on user role
-      setTimeout(() => {
-        navigate('/profile')
-      }, 1500) // Redirect after 1.5 seconds
-    } catch (err) {
-      setError(err.response?.data?.error || 'Error logging in')
+      const response = await loginService({ username, password })
+      const { role } = response.data.user // Assuming your login response includes the user role
+      login(role) // Update auth state with user role
+      navigate('/') // Redirect to the home page or any other page
+    } catch (error) {
+      console.error('Login failed:', error) // eslint-disable-line no-console
+      alert('Login failed')
     }
   }
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Login
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
-            autoComplete="username"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
+          <TextField
+            label="Password"
             type="password"
-            id="password"
-            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="username"
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        {message && <p className="success-message">{message}</p>}
-        <button type="submit" className="btn-primary">
-          Login
-        </button>
-      </form>
-    </div>
+          <Box mt={2} display="flex" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              Login
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Container>
   )
 }
 

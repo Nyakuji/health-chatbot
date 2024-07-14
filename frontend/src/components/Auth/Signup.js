@@ -1,119 +1,124 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import authService from '../../services/Auth/authService'
-import './Auth.module.css'
+import { signup } from '../../services/api'
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Paper,
+  Box,
+} from '@mui/material'
 
 const Signup = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [medicalId, setMedicalId] = useState('')
-  const [role, setRole] = useState('patient') // Default role
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('') // Add this line
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    medicalId: '',
+    role: 'patient',
+    phoneNumber: '',
+  })
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setError('') // Clear previous errors
-    setMessage('') // Clear previous messages
-    if (!email && !phoneNumber) {
-      setError('Either email or phone number is required.')
-      return
-    }
-    try {
-      await authService.signup({
-        username,
-        password,
-        email,
-        phoneNumber,
-        medicalId,
-        role,
+    signup(formData)
+      .then((response) => {
+        console.log(response.data) // eslint-disable-line no-console
+        alert('Signup successful')
       })
-      setMessage('Signup successful! Redirecting to login page...')
-      // Redirect to login page after 1.5 seconds
-      setTimeout(() => navigate('/login'), 1500)
-    } catch (err) {
-      setError(err.response?.data?.error || 'Error signing up')
-    }
+      .catch((error) => {
+        console.error(error) // eslint-disable-line no-console
+        alert('Signup failed')
+      })
   }
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Signup
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
             name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            autoComplete="username"
+            value={formData.username}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
+          <TextField
+            label="Email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="username"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        <div className="form-group">
-          <label>Phone Number</label>
-          <input
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
+          <TextField
             type="password"
-            id="password"
+            label="Password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="username"
+            value={formData.password}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        <div className="form-group">
-          <label>Medical ID</label>
-          <input
-            type="text"
-            value={medicalId}
-            onChange={(e) => setMedicalId(e.target.value)}
-            required
+          <TextField
+            label="Medical ID"
+            name="medicalId"
+            value={formData.medicalId}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
           />
-        </div>
-        <div className="form-group">
-          <label>Role</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <option value="patient">Patient</option>
-            <option value="doctor">Doctor</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        {message && <p className="success-message">{message}</p>}
-        <button type="submit" className="btn-primary">
-          Sign Up
-        </button>
-      </form>
-    </div>
+          <TextField
+            label="Phone Number"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+          <FormControl fullWidth margin="normal" variant="outlined">
+            <InputLabel>Role</InputLabel>
+            <Select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              label="Role"
+            >
+              <MenuItem value="patient">Patient</MenuItem>
+              <MenuItem value="doctor">Doctor</MenuItem>
+            </Select>
+          </FormControl>
+          <Box mt={2} display="flex" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+            >
+              Signup
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Container>
   )
 }
 
