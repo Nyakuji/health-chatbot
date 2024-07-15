@@ -1,20 +1,31 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 
-export const AuthContext = createContext()
+const AuthContext = createContext({
+  isAuthenticated: false,
+  userRole: null,
+  login: () => {},
+  logout: () => {},
+})
+
+export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userRole, setUserRole] = useState(null)
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
-  }, [])
+  const login = (role) => {
+    setIsAuthenticated(true)
+    setUserRole(role)
+  }
+
+  const logout = () => {
+    setIsAuthenticated(false)
+    setUserRole(null)
+  }
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, userRole, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
