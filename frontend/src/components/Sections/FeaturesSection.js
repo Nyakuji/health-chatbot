@@ -139,6 +139,7 @@ export default function Features() {
                     : selectedFeature.imageDark,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
                 minHeight: 280,
               }}
             />
@@ -291,6 +292,7 @@ export default function Features() {
                 width: 420,
                 height: 500,
                 backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
                 backgroundImage: (theme) =>
                   theme.palette.mode === 'light'
                     ? selectedFeature.imageLight
