@@ -1,0 +1,17 @@
+.hero-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-section .MuiContainer-root {
+  text-align: center;
+  color: white;
+}
+
+.hero-section .MuiButton-root {
+  margin-top: 20px;
+}

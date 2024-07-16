@@ -1,7 +1,21 @@
 .contact-info {
-  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
 }
 
 .contact-info-paper {
+  width: 100%;
+  max-width: 600px;
   padding: 20px;
+  margin: 20px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .contact-info-paper {
+    padding: 10px;
+    margin: 10px;
+  }
 }

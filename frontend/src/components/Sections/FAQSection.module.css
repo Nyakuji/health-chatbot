@@ -1,0 +1,16 @@
+.faq-section {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+}
+
+.faq-section .MuiAccordion-root {
+  margin-bottom: 10px;
+}
+
+.faq-section .MuiAccordionSummary-root {
+  background-color: #e0f7fa;
+}
+
+.faq-section .MuiAccordionDetails-root {
+  background-color: #ffffff;
+}
