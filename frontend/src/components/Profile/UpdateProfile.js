@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
+import { fetchProfile } from './profileUtils'
+import { useAuth } from '../../contexts/AuthContext'
 import { updateProfile } from '../../services/api'
 import {
   Container,
@@ -10,7 +11,12 @@ import {
   Box,
 } from '@mui/material'
 
-const UpdateProfile = ({ userId }) => {
+const API_URL = 'http://localhost:5000/api'
+
+const UpdateProfile = () => {
+  const { userData } = useAuth()
+  const userId = userData?.id
+
   const [formData, setFormData] = useState({
     userId,
     username: '',
@@ -18,6 +24,18 @@ const UpdateProfile = ({ userId }) => {
     phoneNumber: '',
     medicalId: '',
   })
+  const [profile, setProfile] = useState({
+    username: '',
+    email: '',
+    phoneNumber: '',
+    medicalId: '',
+    profilePicture: '',
+  })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchProfile(userData, setLoading, setProfile, API_URL)
+  }, [userData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -47,7 +65,7 @@ const UpdateProfile = ({ userId }) => {
           <TextField
             label="Username"
             name="username"
-            value={formData.username}
+            value={profile.username}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -56,7 +74,7 @@ const UpdateProfile = ({ userId }) => {
           <TextField
             label="Email"
             name="email"
-            value={formData.email}
+            value={profile.email}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -65,7 +83,7 @@ const UpdateProfile = ({ userId }) => {
           <TextField
             label="Phone Number"
             name="phoneNumber"
-            value={formData.phoneNumber}
+            value={profile.phoneNumber}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -74,7 +92,7 @@ const UpdateProfile = ({ userId }) => {
           <TextField
             label="Medical ID"
             name="medicalId"
-            value={formData.medicalId}
+            value={profile.medicalId}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -94,10 +112,6 @@ const UpdateProfile = ({ userId }) => {
       </Paper>
     </Container>
   )
-}
-
-UpdateProfile.propTypes = {
-  userId: PropTypes.string.isRequired,
 }
 
 export default UpdateProfile

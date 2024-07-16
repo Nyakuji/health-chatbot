@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
 import { uploadProfilePicture } from '../../services/api'
 import {
   Container,
@@ -11,6 +12,7 @@ import {
 
 const UploadProfilePicture = () => {
   const [file, setFile] = useState(null)
+  const { userData } = useAuth()
 
   const handleChange = (e) => {
     setFile(e.target.files[0])
@@ -22,7 +24,7 @@ const UploadProfilePicture = () => {
     if (file) {
       formData.append('profilePicture', file)
     }
-    uploadProfilePicture(formData)
+    uploadProfilePicture(userData?.id, formData)
       .then((response) => {
         console.log(response.data) // eslint-disable-line no-console
         alert('Profile picture uploaded successfully')

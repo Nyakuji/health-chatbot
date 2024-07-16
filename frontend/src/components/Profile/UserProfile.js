@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { getProfile } from '../../services/api'
+import { fetchProfile } from './profileUtils'
+import { useAuth } from '../../contexts/AuthContext'
 import { Container, Typography, Avatar, CircularProgress } from '@mui/material'
 
-const UserProfile = ({ userId }) => {
+const API_URL = 'http://localhost:5000/api'
+
+const UserProfile = () => {
   const [profile, setProfile] = useState({
     username: '',
     email: '',
@@ -13,23 +15,17 @@ const UserProfile = ({ userId }) => {
   })
   const [loading, setLoading] = useState(true)
 
+  const { userRole, userData } = useAuth()
+
   useEffect(() => {
-    getProfile(userId)
-      .then((response) => {
-        setProfile(response.data.user)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error(error)
-        setLoading(false)
-      })
-  }, [userId])
+    fetchProfile(userData, setLoading, setProfile, API_URL)
+  }, [userData, userRole])
 
   if (loading) {
     return <CircularProgress />
   }
 
-  if (!profile) {
+  if (!profile.username) {
     return <Typography variant="h6">User not found</Typography>
   }
 
@@ -49,10 +45,6 @@ const UserProfile = ({ userId }) => {
       <Typography variant="h6">Medical ID: {profile.medicalId}</Typography>
     </Container>
   )
-}
-
-UserProfile.propTypes = {
-  userId: PropTypes.string.isRequired,
 }
 
 export default UserProfile
