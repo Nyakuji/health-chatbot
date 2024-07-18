@@ -1,8 +1,8 @@
 const { getActivityLogs } = require('../controllers/activityLogController')
-const { verifyToken, isAdmin } = require('../middleware/authMiddleware')
+const { isAdmin } = require('../middleware/authMiddleware')
 
 const activityLogRoutes = (app) => {
-  app.get('/api/activityLogs', verifyToken, isAdmin, getActivityLogs)
+  app.get('/api/activityLogs', isAdmin, getActivityLogs)
 }
 
 module.exports = activityLogRoutes
