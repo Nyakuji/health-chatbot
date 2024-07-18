@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import { useAuth } from '../../contexts/AuthContext'
 import { getFeedbackForDoctor } from '../../services/api'
 import {
   Container,
@@ -15,14 +15,15 @@ import {
   Rating,
 } from '@mui/material'
 
-const DoctorFeedback = ({ doctorId }) => {
+const DoctorFeedback = () => {
+  const { userData } = useAuth()
   const [feedbacks, setFeedbacks] = useState([
     { _id: '', rating: 0, comment: '', patientId: { username: '' } },
   ])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getFeedbackForDoctor(doctorId)
+    getFeedbackForDoctor(userData._id)
       .then((response) => {
         setFeedbacks(response.data)
         setLoading(false)
@@ -31,7 +32,7 @@ const DoctorFeedback = ({ doctorId }) => {
         console.error(error) // eslint-disable-line no-console
         setLoading(false)
       })
-  }, [doctorId])
+  }, [userData._id])
 
   if (loading) {
     return (
@@ -75,10 +76,6 @@ const DoctorFeedback = ({ doctorId }) => {
       </Paper>
     </Container>
   )
-}
-
-DoctorFeedback.propTypes = {
-  doctorId: PropTypes.string.isRequired,
 }
 
 export default DoctorFeedback

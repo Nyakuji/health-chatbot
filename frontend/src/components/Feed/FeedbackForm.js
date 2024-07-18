@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useAuth } from '../../contexts/AuthContext'
 import { createFeedback } from '../../services/api'
 import {
   Container,
@@ -11,13 +11,14 @@ import {
   Paper,
 } from '@mui/material'
 
-const FeedbackForm = ({ patientId, doctorId }) => {
+const FeedbackForm = () => {
+  const { userData } = useAuth()
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const data = { doctorId, patientId, rating, comment }
+    const data = { userId: userData.id, rating, comment }
     createFeedback(data)
       .then((response) => {
         console.log(response.data) // eslint-disable-line no-console
@@ -73,11 +74,6 @@ const FeedbackForm = ({ patientId, doctorId }) => {
       </Paper>
     </Container>
   )
-}
-
-FeedbackForm.propTypes = {
-  patientId: PropTypes.string.isRequired,
-  doctorId: PropTypes.string.isRequired,
 }
 
 export default FeedbackForm
