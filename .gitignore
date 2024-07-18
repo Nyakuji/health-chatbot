@@ -53,6 +53,8 @@ typings/
 
 eslint.config.mjs
 uploads/
+getLpTheme.js
+config-overrides.js
 
 # Optional REPL history
 .node_repl_history
