@@ -1,16 +1,16 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { AuthProvider } from './contexts/AuthContext' // Import AuthProvider
+import { CssBaseline } from '@mui/material'
 
 const container = document.getElementById('root')
 const root = createRoot(container)
 root.render(
-  <AuthProvider>
+  <React.Fragment>
+    <CssBaseline />
     <App />
-  </AuthProvider>
+  </React.Fragment>
 )
 
 reportWebVitals()
