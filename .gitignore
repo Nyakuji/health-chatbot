@@ -52,6 +52,7 @@ typings/
 .eslintcache
 
 eslint.config.mjs
+uploads/
 
 # Optional REPL history
 .node_repl_history
@@ -100,3 +101,4 @@ dist
 
 
 constants.js
+generateSecretKey.js
