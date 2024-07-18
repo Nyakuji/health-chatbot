@@ -18,8 +18,9 @@ const upload = multer({ storage })
 exports.uploadProfilePicture = [
   upload.single('profilePicture'),
   async (req, res) => {
+    const { userId } = req.params
     try {
-      const user = await User.findById(req.userId)
+      const user = await User.findById(userId)
       if (!user) {
         return res.status(404).json({ message: 'User not found' })
       }
