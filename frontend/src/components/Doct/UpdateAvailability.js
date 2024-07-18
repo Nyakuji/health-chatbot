@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useAuth } from '../../contexts/AuthContext'
 import { updateAvailability } from '../../services/api'
 import {
   Container,
@@ -11,7 +11,10 @@ import {
   Box,
 } from '@mui/material'
 
-const UpdateAvailability = ({ doctorId }) => {
+const UpdateAvailability = () => {
+  const { userData } = useAuth()
+  const doctorId = userData?.id
+  
   const [date, setDate] = useState('')
   const [slots, setSlots] = useState([''])
 
@@ -87,10 +90,6 @@ const UpdateAvailability = ({ doctorId }) => {
       </Paper>
     </Container>
   )
-}
-
-UpdateAvailability.propTypes = {
-  doctorId: PropTypes.string.isRequired,
 }
 
 export default UpdateAvailability
