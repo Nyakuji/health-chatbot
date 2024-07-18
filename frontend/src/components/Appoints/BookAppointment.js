@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
 import { bookAppointment } from '../../services/api'
 import {
   Container,
@@ -14,9 +15,9 @@ import {
 } from '@mui/material'
 
 const BookAppointment = () => {
+  const { userData } = useAuth() // Get userData from AuthContext
   const [formData, setFormData] = useState({
     doctorId: '',
-    patientName: '',
     date: '',
     time: '',
     symptoms: '',
@@ -31,7 +32,8 @@ const BookAppointment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    bookAppointment(formData)
+    const data = { ...formData, userData } // Add patientId to formData with null check
+    bookAppointment(data)
       .then((response) => {
         console.log(response.data) // eslint-disable-line no-console
         alert('Appointment booked successfully')
@@ -53,15 +55,6 @@ const BookAppointment = () => {
             label="Doctor ID"
             name="doctorId"
             value={formData.doctorId}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            label="Patient Name"
-            name="patientName"
-            value={formData.patientName}
             onChange={handleChange}
             fullWidth
             margin="normal"

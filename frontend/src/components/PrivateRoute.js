@@ -1,27 +1,16 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { Navigate, Outlet } from 'react-router-dom'
-import { AuthContext } from '../contexts/AuthContext'
+import React from 'react'
+import PropType from 'prop-types'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
-const PrivateRoute = ({ roles }) => {
-  const { user } = useContext(AuthContext)
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth()
 
-  if (!user) {
-    // Redirect to login if user is not authenticated
-    return <Navigate to="/login" />
-  }
-
-  if (roles && !roles.includes(user.role)) {
-    // Redirect to unauthorized page or home if user does not have the correct role
-    return <Navigate to="/unauthorized" />
-  }
-
-  // Render the child components
-  return <Outlet />
+  return isAuthenticated ? children : <Navigate to="/login" />
 }
 
 PrivateRoute.propTypes = {
-  roles: PropTypes.arrayOf(PropTypes.string),
+  children: PropType.node.isRequired,
 }
 
 export default PrivateRoute
